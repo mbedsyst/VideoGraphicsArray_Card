@@ -1,0 +1,8 @@
+..//Headers/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	2
+..//Headers/CMSIS/Include/core_cm4.h:2064:26:ITM_SendChar	4
+../Src/VGA_Core.c:4:20:SWV_Send	1
+../Src/VGA_Core.c:9:13:HSYNC_Init	1
+../Src/VGA_Core.c:39:13:VSYNC_Init	1
+../Src/VGA_Core.c:69:6:TIM2_IRQHandler	4
+../Src/VGA_Core.c:87:6:TIM3_IRQHandler	4
+../Src/VGA_Core.c:105:6:VGA_Init	1

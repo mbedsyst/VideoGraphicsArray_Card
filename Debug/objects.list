@@ -1,0 +1,7 @@
+"./Src/Logger/logger.o"
+"./Src/VGA_Core.o"
+"./Src/main.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Src/system_init.o"
+"./Startup/startup_stm32f401retx.o"
