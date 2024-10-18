@@ -1,5 +1,7 @@
 "./Src/Logger/logger.o"
 "./Src/VGA_Core.o"
+"./Src/VGA_Draw.o"
+"./Src/VGA_Font.o"
 "./Src/main.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"

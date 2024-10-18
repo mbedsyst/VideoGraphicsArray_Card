@@ -6,6 +6,8 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Src/VGA_Core.c \
+../Src/VGA_Draw.c \
+../Src/VGA_Font.c \
 ../Src/main.c \
 ../Src/syscalls.c \
 ../Src/sysmem.c \
@@ -13,6 +15,8 @@ C_SRCS += \
 
 OBJS += \
 ./Src/VGA_Core.o \
+./Src/VGA_Draw.o \
+./Src/VGA_Font.o \
 ./Src/main.o \
 ./Src/syscalls.o \
 ./Src/sysmem.o \
@@ -20,6 +24,8 @@ OBJS += \
 
 C_DEPS += \
 ./Src/VGA_Core.d \
+./Src/VGA_Draw.d \
+./Src/VGA_Font.d \
 ./Src/main.d \
 ./Src/syscalls.d \
 ./Src/sysmem.d \
@@ -33,7 +39,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/VGA_Core.cyclo ./Src/VGA_Core.d ./Src/VGA_Core.o ./Src/VGA_Core.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/system_init.cyclo ./Src/system_init.d ./Src/system_init.o ./Src/system_init.su
+	-$(RM) ./Src/VGA_Core.cyclo ./Src/VGA_Core.d ./Src/VGA_Core.o ./Src/VGA_Core.su ./Src/VGA_Draw.cyclo ./Src/VGA_Draw.d ./Src/VGA_Draw.o ./Src/VGA_Draw.su ./Src/VGA_Font.cyclo ./Src/VGA_Font.d ./Src/VGA_Font.o ./Src/VGA_Font.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/system_init.cyclo ./Src/system_init.d ./Src/system_init.o ./Src/system_init.su
 
 .PHONY: clean-Src
 

@@ -6,7 +6,8 @@ Src/VGA_Core.o: ../Src/VGA_Core.c \
  ..//Headers/CMSIS/Include/cmsis_compiler.h \
  ..//Headers/CMSIS/Include/cmsis_gcc.h \
  ..//Headers/CMSIS/Include/mpu_armv7.h \
- ..//Headers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
+ ..//Headers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h \
+ ../Inc/VGA_Core.h
 ..//Headers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ..//Headers/CMSIS/Device/ST/STM32F4xx/Include/stm32f401xe.h:
 ..//Headers/CMSIS/Include/core_cm4.h:
@@ -15,3 +16,4 @@ Src/VGA_Core.o: ../Src/VGA_Core.c \
 ..//Headers/CMSIS/Include/cmsis_gcc.h:
 ..//Headers/CMSIS/Include/mpu_armv7.h:
 ..//Headers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h:
+../Inc/VGA_Core.h:

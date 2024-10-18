@@ -4,7 +4,7 @@
 #include "stm32f4xx.h"
 
 LogLevel system_log_level = LOG_LEVEL_DEBUG;
-uint32_t SystemCoreClock = 84000000;
+uint32_t SystemCoreClock = 80000000;
 
 static void Clock_Config(void)
 {
@@ -23,7 +23,7 @@ static void Clock_Config(void)
 	// Configures PLL: source = HSE, PLLCLK = 72MHz.
 	MODIFY_REG(RCC->PLLCFGR,
 		RCC_PLLCFGR_PLLM | RCC_PLLCFGR_PLLN | RCC_PLLCFGR_PLLQ | RCC_PLLCFGR_PLLSRC | RCC_PLLCFGR_PLLP,
-		_VAL2FLD(RCC_PLLCFGR_PLLM, 4) | _VAL2FLD(RCC_PLLCFGR_PLLN, 84) | _VAL2FLD(RCC_PLLCFGR_PLLQ, 3) | RCC_PLLCFGR_PLLSRC_HSE
+		_VAL2FLD(RCC_PLLCFGR_PLLM, 4) | _VAL2FLD(RCC_PLLCFGR_PLLN, 80) | _VAL2FLD(RCC_PLLCFGR_PLLQ, 3) | RCC_PLLCFGR_PLLSRC_HSE
 	);
 
 	// Enables PLL module.
@@ -49,7 +49,6 @@ static void Clock_Config(void)
 
 	// Disables HSI.
 	CLEAR_BIT(RCC->CR, RCC_CR_HSION);
-
 }
 
 void SystemInit(void)
