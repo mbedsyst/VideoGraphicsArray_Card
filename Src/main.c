@@ -1,3 +1,11 @@
+/**
+ * @file main.c
+ * @brief Source file for Application
+ *
+ * This file provides application logic for
+ * interfacing the VGA Monitor
+ */
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stm32f4xx.h>
@@ -10,7 +18,7 @@ int main(void)
 
 	while(1)
 	{
-		log_info("Hello World\n\r");
+
 	}
 
 }

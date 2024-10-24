@@ -1,5 +1,16 @@
+/**
+ * @file VGA_Font.c
+ * @brief Source file for 8x8 Font Bitmap
+ *
+ * This file provides the 8x8 font bitmaps for
+ * 95 characters in the ASCII table
+ */
+
 #include <stdint.h>
 
+/**
+ * @brief Definition of 8x8 font bitmap array
+ */
 uint8_t font_8x8[95][8]=
 {
 		{ 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00 }, /*   */

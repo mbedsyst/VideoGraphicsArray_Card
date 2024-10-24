@@ -1,6 +1,20 @@
-#include <stdint.h>
-#include "VGA_Font.h"
+/**
+ * @file VGA_Draw.c
+ * @brief Source file for VGA Drawing Functions
+ *
+ * This file provides definitions for functions
+ * to draw pixel, characters and texts on the
+ * VGA Monitor
+ */
 
+#include "VGA_Draw.h"
+
+/**
+ * @brief Initializes frame buffer to zeroes
+ *
+ * This function can clear out the frame buffer
+ * while initializing
+ */
 void VGA_InitFrameBuffer(void)
 {
 	for(int y = 0; y < HEIGHT; y++)
@@ -12,6 +26,12 @@ void VGA_InitFrameBuffer(void)
 	}
 }
 
+/**
+ * @brief Draws a pixel at coordinates (x, y)
+ *
+ * @param x Coordinate on the x-axis
+ * @param y Coordinate on the y-axis
+ */
 void VGA_DrawPixel(int x, int y)
 {
 	if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
@@ -20,6 +40,13 @@ void VGA_DrawPixel(int x, int y)
 	}
 }
 
+/**
+ * @brief Draws a pixel at coordinates (x, y)
+ *
+ * @param x Coordinate on the x-axis
+ * @param y Coordinate on the y-axis
+ * @param Character ASCII character to be drawn
+ */
 void VGA_DrawChar(int x, int y, char Character)
 {
     if (Character < 32 || Character > 126)
@@ -37,7 +64,13 @@ void VGA_DrawChar(int x, int y, char Character)
     }
 }
 
-// Function to draw a text string at (x, y)
+/**
+ * @brief Draws a pixel at coordinates (x, y)
+ *
+ * @param x Coordinate on the x-axis
+ * @param y Coordinate on the y-axis
+ * @param Text Pointer to character string
+ */
 void VGA_DrawText(int x, int y, const char *Text)
 {
     int startX = x;

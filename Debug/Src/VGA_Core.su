@@ -1,0 +1,4 @@
+../Src/VGA_Core.c:17:13:HSYNC_Init	4	static
+../Src/VGA_Core.c:48:13:VSYNC_Init	4	static
+../Src/VGA_Core.c:86:13:PIXEL_Init	4	static
+../Src/VGA_Core.c:108:6:VGA_Init	8	static
