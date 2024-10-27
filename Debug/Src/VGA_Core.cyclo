@@ -1,4 +1,8 @@
-../Src/VGA_Core.c:17:13:HSYNC_Init	1
+../Src/VGA_Core.c:18:13:HSYNC_Init	1
 ../Src/VGA_Core.c:48:13:VSYNC_Init	1
-../Src/VGA_Core.c:86:13:PIXEL_Init	1
-../Src/VGA_Core.c:108:6:VGA_Init	1
+../Src/VGA_Core.c:79:13:PIXEL_Init	1
+../Src/VGA_Core.c:102:13:DATA_Init	1
+../Src/VGA_Core.c:115:13:DMA_Init	1
+../Src/VGA_Core.c:134:6:TIM2_IRQHandler	4
+../Src/VGA_Core.c:160:6:TIM3_IRQHandler	2
+../Src/VGA_Core.c:172:6:VGA_Init	1

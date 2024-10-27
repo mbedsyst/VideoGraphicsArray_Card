@@ -19,19 +19,15 @@
  */
 #include "VGA_Font.h"
 
-/**
- * @brief Number of lines in a single frame
- */
-#define HEIGHT	800
-/**
- * @brief Number of pixels in a single line
- */
-#define WIDTH	600
+#define SCREEN_WIDTH 	800
+#define SCREEN_HEIGHT 	600
+#define TOTAL_WIDTH 	1056
+#define TOTAL_HEIGHT 	628
 
 /**
  * @brief Declaration of two dimensional frame buffer array
  */
-extern uint8_t frameBuffer[HEIGHT][WIDTH];
+extern uint8_t frameBuffer[SCREEN_HEIGHT][SCREEN_WIDTH/8];
 
 /**
  * @brief Draws a pixel at coordinates (x, y)

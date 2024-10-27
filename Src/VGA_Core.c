@@ -7,8 +7,9 @@
  * transferring data to the monitor
  */
 
-#include "stm32f4xx.h"  // Include device header for STM32F4
 #include "VGA_Core.h"
+
+volatile uint16_t currentLine = 0;
 
 /**
  * @brief Initializes TIM2 to generate a 40 MHz signal
@@ -24,20 +25,19 @@ static void HSYNC_Init(void)
     GPIOA->MODER |= GPIO_MODER_MODER0_1;
     GPIOA->AFR[0] &= ~GPIO_AFRL_AFRL0;
     GPIOA->AFR[0] |= 0x01;
+
     // Set up TIM2 for PWM mode (PWM Mode 1)
     TIM2->PSC = 8 - 1;
     TIM2->ARR = 264 - 1;
     TIM2->CCR1 = 232;
+
     // Set OC1M to PWM Mode 1 (110)
     TIM2->CCMR1 &= ~TIM_CCMR1_OC1M;
     TIM2->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2;
-    // Enable Output Pre-load
+
     TIM2->CCMR1 |= TIM_CCMR1_OC1PE;
-    // Enable the output compare for channel 1 (CC1E)
     TIM2->CCER |= TIM_CCER_CC1E;
-    // Enable the timer counter
     TIM2->CR1 |= TIM_CR1_CEN;
-    // Force an update event to load the registers
     TIM2->EGR |= TIM_EGR_UG;
 }
 
@@ -48,35 +48,28 @@ static void HSYNC_Init(void)
 static void VSYNC_Init(void)
 {
     // Enable clock access for TIM3 and GPIOA
-    RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;  // Enable TIM3 clock
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; // Enable GPIOA clock
+    RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 
     // Configure PA6 as Alternate Function (AF2)
-    GPIOA->MODER &= ~GPIO_MODER_MODER6; // Clear mode bits for PA6
-    GPIOA->MODER |= GPIO_MODER_MODER6_1; // Set PA6 to alternate function
-    GPIOA->AFR[0] &= ~GPIO_AFRL_AFRL6; // Clear alternate function bits for PA6
-    GPIOA->AFR[0] |= 0x02 << (6 * 4); // Set alternate function 2 (AF2 for TIM3)
+    GPIOA->MODER &= ~GPIO_MODER_MODER6;
+    GPIOA->MODER |= GPIO_MODER_MODER6_1;
+    GPIOA->AFR[0] &= ~GPIO_AFRL_AFRL6;
+    GPIOA->AFR[0] |= 0x02 << (6 * 4);
 
     // Set up TIM3 for PWM mode
-    TIM3->PSC = 80 - 1;        // Prescaler = 7 (timer clock = 10 MHz)
-    TIM3->ARR = 16579 - 1;      // Auto-reload value = 263
-    TIM3->CCR1 = 16474 - 1;     // Duty cycle value
+    TIM3->PSC = 80 - 1;
+    TIM3->ARR = 16579 - 1;
+    TIM3->CCR1 = 16474 - 1;
 
     // Set OC1M to PWM Mode 1 (110)
-    TIM3->CCMR1 &= ~TIM_CCMR1_OC1M; // Clear the mode bits
-    TIM3->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2; // Set to PWM Mode 1
+    TIM3->CCMR1 &= ~TIM_CCMR1_OC1M;
+    TIM3->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2;
 
-    // Enable Output Pre-load
-    TIM3->CCMR1 |= TIM_CCMR1_OC1PE; // Enable preload for CCR1
-
-    // Enable the output compare for channel 1
-    TIM3->CCER |= TIM_CCER_CC1E; // Enable output on channel 1
-
-    // Enable the timer counter
-    TIM3->CR1 |= TIM_CR1_CEN; // Start the timer
-
-    // Force an update event to load the registers
-    TIM3->EGR |= TIM_EGR_UG; // Force an update event
+    TIM3->CCMR1 |= TIM_CCMR1_OC1PE;
+    TIM3->CCER |= TIM_CCER_CC1E;
+    TIM3->CR1 |= TIM_CR1_CEN;
+    TIM3->EGR |= TIM_EGR_UG;
 }
 
 /**
@@ -102,6 +95,77 @@ static void PIXEL_Init(void)
     TIM4->CR1 |= TIM_CR1_CEN;
 }
 
+
+/**
+ * @brief Initializes PB0 as the Monochrome Data signal
+ */
+static void DATA_Init(void)
+{
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+	GPIOB->MODER |= GPIO_MODER_MODER0_0;
+	GPIOB->OTYPER &= ~GPIO_OTYPER_OT0;
+	GPIOB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR0;
+}
+
+/**
+ * @brief Initializes DMA1 Stream5 Channel 7
+ * 		  to transfer Frame Buffer to Data
+ * 		  pin
+ */
+static void DMA_Init(void)
+{
+    RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;
+    DMA1_Stream5->CR &= ~DMA_SxCR_EN;
+    DMA1_Stream5->CR |= DMA_SxCR_CHSEL;
+    DMA1_Stream5->CR |= DMA_SxCR_DIR_0;
+    DMA1_Stream5->CR |= DMA_SxCR_MINC;
+    DMA1_Stream5->CR |= DMA_SxCR_PSIZE_0;
+    DMA1_Stream5->CR |= DMA_SxCR_MSIZE_0;
+    DMA1_Stream5->CR |= DMA_SxCR_CIRC;
+    DMA1_Stream5->PAR = (uint32_t)&GPIOB->ODR;
+    DMA1_Stream5->CR |= DMA_SxCR_EN;
+}
+
+/**
+ * @brief Transfers a single line of pixel data
+ * 		  from memory to GPIO Port B and manages
+ * 		  active frame line
+ */
+void TIM2_IRQHandler(void)
+{
+    if (TIM2->SR & TIM_SR_UIF)
+    {
+    	TIM2->SR &= ~TIM_SR_UIF;
+        if (currentLine < SCREEN_HEIGHT)
+        {
+            DMA1_Stream5->M0AR = (uint32_t)&frameBuffer[currentLine][0];
+            DMA1_Stream5->NDTR = SCREEN_WIDTH / 8;
+            DMA1_Stream5->CR |= DMA_SxCR_EN;
+        }
+        else
+        {
+            DMA1_Stream5->CR &= ~DMA_SxCR_EN; // Disable DMA transfer during blanking
+        }
+        currentLine++;
+        if (currentLine >= TOTAL_HEIGHT)
+        {
+            currentLine = 0;
+        }
+    }
+}
+
+/**
+ * @brief Restarts active frame line on interrupt trigger.
+ */
+void TIM3_IRQHandler(void)
+{
+    if (TIM3->SR & TIM_SR_UIF)
+    {
+        TIM3->SR &= ~TIM_SR_UIF;
+        currentLine = 0;
+    }
+}
+
 /**
  * @brief Initializes HSYNC, VSYNC and PIXEL signals
  */
@@ -110,6 +174,8 @@ void VGA_Init(void)
 	HSYNC_Init();
 	VSYNC_Init();
 	PIXEL_Init();
+	DATA_Init();
+	DMA_Init();
 }
 
 

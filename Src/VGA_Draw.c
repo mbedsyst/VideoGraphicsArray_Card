@@ -17,9 +17,9 @@
  */
 void VGA_InitFrameBuffer(void)
 {
-	for(int y = 0; y < HEIGHT; y++)
+	for(int y = 0; y < SCREEN_HEIGHT; y++)
 	{
-		for(int x = 0; x < WIDTH; x++)
+		for(int x = 0; x < SCREEN_WIDTH; x++)
 		{
 			frameBuffer[y][x] = 0;
 		}
@@ -34,7 +34,7 @@ void VGA_InitFrameBuffer(void)
  */
 void VGA_DrawPixel(int x, int y)
 {
-	if(x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	if(x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
 	{
 		frameBuffer[y][x] = 1;
 	}

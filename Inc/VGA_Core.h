@@ -10,6 +10,9 @@
 #ifndef VGA_CORE_H_
 #define VGA_CORE_H_
 
+#include "stm32f4xx.h"
+#include "VGA_Draw.h"
+
 /**
  * @brief Initializes HSYNC, VSYNC and PIXEL signals
  */
